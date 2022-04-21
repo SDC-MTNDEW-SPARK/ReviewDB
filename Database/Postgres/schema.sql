@@ -8,20 +8,27 @@ CREATE TABLE IF NOT EXISTS reviewTable (
   recommend BOOLEAN,
   reported BOOLEAN,
   reviewer_name VARCHAR(30),
-  characteristic_id INT,
-  reviewer_email VARCHAR(30),
+  reviewer_email VARCHAR(50),
   response VARCHAR,
   helpfulness INT
 );
 
 CREATE TABLE IF NOT EXISTS reviewPhotoTable (
-  photo_id INT NOT NULL ,
+  photo_id INT NOT NULL PRIMARY KEY,
+  review_id INT NOT NULL REFERENCES reviewTable,
   url VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS characteristic (
-  characteristic_id INT NOT NULL,
+
+CREATE TABLE IF NOT EXISTS charReview (
+  id INT NOT NULL PRIMARY KEY,
+  characteristic_id INT NOT NULL REFERENCES characteristic,
+  review_id INT NOT NULL REFERENCES reviewTable,
+  value INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS charTable (
+  id INT NOT NULL PRIMARY KEY,
   product_id INT NOT NULL,
-  name VARCHAR,
-  value INT
+  name VARCHAR NOT NULL
 );
