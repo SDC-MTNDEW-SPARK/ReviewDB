@@ -1,34 +1,27 @@
-DROP DATABASE reviews IF EXISTS;
-CREATE DATABASE reviews;
-USE reviews;
-
-CREATE TABLE reviewTable (
-  review_id INT NOT NULL AUTO_INCREMENT,
-  characteristic_id INT,
-  product_id INT,
-  photo_id INT,
+CREATE TABLE IF NOT EXISTS reviewTable (
+  review_id INT PRIMARY KEY,
+  product_id INT NOT NULL,
   rating INT,
-  summary TEXT(16383),
-  recommend BOOLEAN,
-  response VARCHAR,
-  body VARCHAR,
   date DATE,
+  summary VARCHAR,
+  body VARCHAR,
+  recommend BOOLEAN,
+  reported BOOLEAN,
   reviewer_name VARCHAR(30),
-  helpfulness INT,
-  reviewer_name VARCHAR(30),
-  reported BOOLEAN
-)
-
-CREATE TABLE reviewPhotoTable (
-  photo_id INT,
-  review_id INT,
-  url VARCHAR,
-)
-
-CREATE TABLE characteristic (
   characteristic_id INT,
-  product_id INT,
-  review_id INT,
+  reviewer_email VARCHAR(30),
+  response VARCHAR,
+  helpfulness INT
+);
+
+CREATE TABLE IF NOT EXISTS reviewPhotoTable (
+  photo_id INT NOT NULL ,
+  url VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS characteristic (
+  characteristic_id INT NOT NULL,
+  product_id INT NOT NULL,
   name VARCHAR,
   value INT
-)
+);
