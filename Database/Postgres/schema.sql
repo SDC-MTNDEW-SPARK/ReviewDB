@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS characteristic(
   product_id INT NOT NULL,
   review_id INT NOT NULL,
   name VARCHAR NOT NULL,
-  value VARCHAR NOT NULL
+  value INT NOT NULL
 );
 
 INSERT INTO characteristic(characteristic_id, product_id, review_id, name, value) SELECT charreview.characteristic_id, chartable.product_id,charreview.review_id, chartable.name, charreview.value FROM charreview INNER JOIN chartable ON chartable.id = charreview.characteristic_id;
