@@ -72,7 +72,7 @@ app.post("/reviews", (req, res) => {
   }
 
   let query1 = `INSERT INTO reviewTable (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email) VALUES ('${product_id}', '${rating}', CURRENT_TIMESTAMP, '${summary}', '${body}', ${recommend}, '${name}', '${email}') RETURNING review_id;`;
-
+  console.log(query1);
   db.postReview('begin')
     .then(res=>{
       return db.postReview(query1);
@@ -94,11 +94,14 @@ app.post("/reviews", (req, res) => {
     .then(reviewId => {
       console.log('reviewId-------query3', reviewId);
       review_id = reviewId["rows"][0].review_id;
+      let query3 = 'INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name) SELECT DISTINCT * FROM (';
       for (let key in characteristics) {
-        let query3 = `INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name) SELECT DISTINCT ${review_id}, ${product_id}, ${key}, ${characteristics[key]}, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = ${key};`;
-        console.log("=========================3=======", query3);
-        db.postReview(query3);
+        let query = `(SELECT ${review_id}, ${product_id}, ${key}, ${characteristics[key]}, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = ${key}) UNION ALL `;
+        query3 = query3.concat(query);
       }
+      query3 = query3.slice(0, -11) + ') AS a;';
+      console.log("=========================3=======", query3);
+      return db.postReview(query3);
     })
     .then((res) => {
       console.log('333333333'.res);

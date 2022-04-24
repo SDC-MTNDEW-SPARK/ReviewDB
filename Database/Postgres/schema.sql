@@ -65,7 +65,14 @@ CREATE INDEX product_characteristic ON characteristic(product_id);
 
 -- -- SELECT charreview.characteristic_id, charreview.review_id, charreview.value, chartable.product_id, chartable.name FROM charreview LEFT JOIN chartable ON chartable.id = charreview.characteristic_id WHERE chartable.product_id is NULL limit 100;
 
-SELECT setval('reviewtable_review_id_seq', (SELECT MAX(review_id) FROM reviewTable)+1);
-SELECT setval('reviewphototable_photo_id_seq', (SELECT MAX(photo_id) FROM reviewPhotoTable)+1);
-INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name)
-SELECT DISTINCT '5774984', '65613', '219308',  3, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = '219308' AND characteristic.product_id = '65613';
+-- SELECT setval('reviewtable_review_id_seq', (SELECT MAX(review_id) FROM reviewTable)+1);
+-- SELECT setval('reviewphototable_photo_id_seq', (SELECT MAX(photo_id) FROM reviewPhotoTable)+1);
+
+-- INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name)
+-- SELECT DISTINCT '5774984', '65613', '219308',  3, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = '219308' AND characteristic.product_id = '65613';
+-- INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name)
+-- SELECT DISTINCT '5775026', '852921', '2855523',  2, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = '2855523' AND characteristic.product_id = '852921';
+
+
+-- INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name)
+-- SELECT DISTINCT * FROM ((SELECT 5774984, 65613, 219308,  3, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = '219308' AND characteristic.product_id = '65613') union all (SELECT 5775026, 852921, 2855523,  2, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = '2855523' AND characteristic.product_id = '852921')) AS Dis;
