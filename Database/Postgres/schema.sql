@@ -60,7 +60,7 @@ INSERT INTO characteristic(characteristic_id, product_id, review_id, name, value
 
 CREATE INDEX product_characteristic ON characteristic(product_id);
 
--- -- ALTER TABLE characterTable ADD CONSTRAINT FOREIGN KEY (review_id) REFERENCES reviewTable(review_id);
+-- -- ALTER TABLE characteristic ADD FOREIGN KEY (review_id) REFERENCES reviewTable(review_id);
 
 
 -- -- SELECT charreview.characteristic_id, charreview.review_id, charreview.value, chartable.product_id, chartable.name FROM charreview LEFT JOIN chartable ON chartable.id = charreview.characteristic_id WHERE chartable.product_id is NULL limit 100;

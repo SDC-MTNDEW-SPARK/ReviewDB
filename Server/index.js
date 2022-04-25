@@ -81,22 +81,23 @@ app.post("/reviews", (req, res) => {
       console.log('reviewId-------', reviewId);
       review_id = reviewId["rows"][0].review_id;
       let toInsert = photos.map((url) => {
-        return `(${review_id}, ${url})`;
+        return `(${review_id}, '${url}')`;
       });
 
-      console.log("toInsert", toInsert);
+      // console.log("toInsert", toInsert);
 
       let query2 = `INSERT INTO reviewPhotoTable (review_id, url) VALUES ${toInsert.join(
         ","
       )} RETURNING review_id;`;
+      console.log('query2--------------------------', query2);
       return db.postReview(query2);
     })
     .then(reviewId => {
       console.log('reviewId-------query3', reviewId);
       review_id = reviewId["rows"][0].review_id;
-      let query3 = 'INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name) SELECT DISTINCT * FROM (';
+      let query3 = 'INSERT INTO characteristic (review_id, product_id, characteristic_id, value, name) SELECT * FROM (';
       for (let key in characteristics) {
-        let query = `(SELECT ${review_id}, ${product_id}, ${key}, ${characteristics[key]}, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = ${key}) UNION ALL `;
+        let query = `(SELECT ${review_id}, ${product_id}, ${key}, ${characteristics[key]}, characteristic.name FROM characteristic WHERE characteristic.characteristic_id = ${key} LIMIT 1) UNION ALL `;
         query3 = query3.concat(query);
       }
       query3 = query3.slice(0, -11) + ') AS a;';
