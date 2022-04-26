@@ -51,14 +51,26 @@ CREATE TABLE IF NOT EXISTS characteristic(
   id SERIAL PRIMARY KEY,
   characteristic_id INT NOT NULL,
   product_id INT NOT NULL,
-  review_id INT NOT NULL,
+  review_id INT,
   name VARCHAR NOT NULL,
-  value INT NOT NULL
+  value INT
 );
 
-INSERT INTO characteristic(characteristic_id, product_id, review_id, name, value) SELECT charreview.characteristic_id, chartable.product_id,charreview.review_id, chartable.name, charreview.value FROM charreview INNER JOIN chartable ON chartable.id = charreview.characteristic_id;
+INSERT INTO characteristic (product_id, characteristic_id, review_id, name, value)
+SELECT chartable.product_id, filled_chars.characteristic_id, filled_chars.review_id, chartable.name,filled_chars.value
+FROM chartable INNER JOIN
+( SELECT * FROM charreview
+  RIGHT JOIN (SELECT * FROM generate_series(1,3347679) characteristic_id) series
+  USING (characteristic_id)
+  ORDER BY characteristic_id ASC
+) filled_chars
+ON chartable.id = filled_chars.characteristic_id
+ORDER BY filled_chars.characteristic_id;
 
-CREATE INDEX product_characteristic ON characteristic(product_id);
+
+-- INSERT INTO characteristic(characteristic_id, product_id, review_id, name, value) SELECT charreview.characteristic_id, chartable.product_id,charreview.review_id, chartable.name, charreview.value FROM charreview INNER JOIN chartable ON chartable.id = charreview.characteristic_id;
+
+-- CREATE INDEX product_characteristic ON characteristic(product_id);
 
 -- -- ALTER TABLE characteristic ADD FOREIGN KEY (review_id) REFERENCES reviewTable(review_id);
 
