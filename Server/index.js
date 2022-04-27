@@ -120,7 +120,7 @@ FROM
   )
   char;
 `;
-// console.log('---------------queryStr', queryStr);
+console.log('---------------queryStr', queryStr);
   db.getReviews(queryStr)
     .then((response) => res.send(response.rows[0]))
     .catch((err) => res.status(500).send(err));
@@ -184,7 +184,7 @@ reviewer_name,
 helpfulness ORDER BY ${sortBy(
     req.query.sort
   )} DESC LIMIT ${page * count};`;
-
+  console.log(queryStr);
   db.getReviews(queryStr)
     .then((response) =>
       res.send({
