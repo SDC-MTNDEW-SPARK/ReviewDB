@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("./controller.js");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const port = 3005;
 require("dotenv").config();
 require('newrelic');
 
@@ -13,12 +13,14 @@ app.use(bodyParser.json());
 // });
 
 app.get("/reviews/meta", (req, res) => {
+  // console.log('req------------', req.query.product_id);
   let id = req.query.product_id;
-  let queryStr = `SELECT
+  let queryStr = `
+  SELECT
   p.product_id,
   r.ratings,
-  rec.recommend,
-  char.characteristic
+  rec.recommended,
+  char.characteristics
 FROM
   (
         SELECT
@@ -40,7 +42,7 @@ FROM
         FROM
           reviewTable
         WHERE
-          product_id = '${id}'
+          product_id = '2'
         GROUP BY
           rating
       )
@@ -49,7 +51,7 @@ FROM
   r,
   (
     SELECT
-      json_object_agg(d.recommend, d.count) as recommend
+      json_object_agg(d.recommend, d.count) as recommended
     FROM
       (
         SELECT
@@ -67,7 +69,7 @@ FROM
   rec,
   (
     SELECT
-      json_object_agg(a.name, a.value) AS characteristic
+      json_object_agg(a.name, a.value) AS characteristics
     FROM
       (
         SELECT
@@ -118,9 +120,10 @@ FROM
   )
   char;
 `;
+// console.log('---------------queryStr', queryStr);
   db.getReviews(queryStr)
     .then((response) => res.send(response.rows[0]))
-    .catch((err) => console.log("err executing query", err.stack));
+    .catch((err) => res.status(500).send(err));
 });
 
 app.get("/reviews", (req, res) => {
@@ -191,7 +194,7 @@ helpfulness ORDER BY ${sortBy(
         results: response.rows,
       })
     )
-    .catch((err) => console.log("err executing query", err.stack));
+    .catch((err) => res.status(500).send(err));
 });
 
 app.post("/reviews", (req, res) => {
@@ -250,7 +253,7 @@ app.post("/reviews", (req, res) => {
       return db.postReview("commit");
     })
     .then((result) => {
-      res.send("transaction completed");
+      res.status(200).send("transaction completed");
     })
     .catch(err=>console.log(err));
 });
@@ -260,7 +263,7 @@ app.put("/reviews/:review_id/helpful", (req, res) => {
   let queryStr = `UPDATE reviewTable SET helpfulness = helpfulness + 1 WHERE review_id='${id}';`;
   db.getReviews(queryStr)
     .then((response) => res.json(response))
-    .catch((err) => console.log("err executing query", err.stack));
+    .catch((err) => res.status(500).send(err));
 });
 
 app.put("/reviews/:review_id/report", (req, res) => {
@@ -268,7 +271,7 @@ app.put("/reviews/:review_id/report", (req, res) => {
   let queryStr = `UPDATE reviewTable SET reported = NOT reported WHERE review_id = ${id};`;
   db.getReviews(queryStr)
     .then((response) => res.json(response))
-    .catch((err) => console.log("err executing query", err.stack));
+    .catch((err) => res.status(500).send(err));
 });
 
 app.listen(port, () => {
