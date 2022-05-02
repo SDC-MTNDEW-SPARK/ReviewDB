@@ -8,14 +8,14 @@ $ npm install
 
 start the postgrsql service in your terminal. You would crete the env file in the following format:
 
-PGUSER=YOUR_USER
-PG_DATABASE=reviews
-PGHOST=YOUR_HOST
-PGPORT=5432
-PGPASSWORD=YOUR_PASSWORD
+*PGUSER=YOUR_USER
+*PG_DATABASE=reviews
+*PGHOST=YOUR_HOST
+*PGPORT=5432
+*PGPASSWORD=YOUR_PASSWORD
 
 To start the server
-$ Run npm run-srver-dev
+$npm run-srver-dev
 
 ---
 
