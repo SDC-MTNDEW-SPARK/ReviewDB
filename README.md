@@ -6,14 +6,16 @@ This is the backend service for Aerlier front-end project for the ratings and re
 ***
 $ npm install
 
+***
 start the postgrsql service in your terminal. You would crete the env file in the following format:
 
-*PGUSER=YOUR_USER
-*PG_DATABASE=reviews
-*PGHOST=YOUR_HOST
-*PGPORT=5432
-*PGPASSWORD=YOUR_PASSWORD
-
+```
+PGUSER=YOUR_USER
+PG_DATABASE=reviews
+PGHOST=YOUR_HOST
+PGPORT=5432
+PGPASSWORD=YOUR_PASSWORD
+```
 To start the server
 $npm run-srver-dev
 
