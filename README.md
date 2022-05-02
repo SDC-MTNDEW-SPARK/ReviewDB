@@ -34,7 +34,7 @@ Retrieve a list of reviews for selected product.
 | sort          | String        | Optional. Select from "helpfulness", "relevant" and "date"            |
 
 Response
-Status 200 OK
+* Status 200 OK
 ```
 {
   "product": "2",
