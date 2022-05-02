@@ -35,7 +35,7 @@ Retrieve a list of reviews for selected product.
 
 Response
 Status 200 OK
-
+```
 {
   "product": "2",
   "page": 0,
@@ -77,3 +77,4 @@ Status 200 OK
     // ...
   ]
 }
+```
