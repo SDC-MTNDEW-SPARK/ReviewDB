@@ -2,8 +2,9 @@
 
 This is the backend service for Aerlier front-end project for the ratings and reviews part built in the REST API and PostgreSQL.
 ---
-# Installation
-npm install
+## Installation
+***
+$ npm install
 
 start the postgrsql service in your terminal. You would crete the env file in the following format:
 
@@ -13,7 +14,9 @@ PGHOST=YOUR_HOST
 PGPORT=5432
 PGPASSWORD=YOUR_PASSWORD
 
-Run npm run-srver-dev to start the server.
+To start the server
+$ Run npm run-srver-dev
+
 ---
 
 # API Endpoints
