@@ -23,7 +23,7 @@ $npm run-srver-dev
 
 # API Endpoints
 
--GET/REVIEWS <br />
+## -GET/REVIEWS <br />
 
 Retrieve a list of reviews for selected product.
 
@@ -34,7 +34,7 @@ Retrieve a list of reviews for selected product.
 | count         | Integer       | Optional. Specify the countof the reviews to be returned, default in 5|
 | sort          | String        | Optional. Select from "helpfulness", "relevant" and "date"            |
 
-Response <br />
+### Response <br />
 Status 200 OK
 ```
 {
